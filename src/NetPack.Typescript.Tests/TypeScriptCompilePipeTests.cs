@@ -6,10 +6,9 @@ using Moq;
 using NetPack.Requirements;
 using NetPack.Utils;
 using Xunit;
-using Dazinator.AspNet.Extensions.FileProviders;
-using NetPack.Typescript;
 using NetPack.Tests.Pipes;
 using System.Threading;
+using Dazinator.Extensions.FileProviders;
 
 namespace NetPack.Typescript.Tests
 {

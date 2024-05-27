@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Dazinator.AspNet.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using System;
-using System.Runtime.InteropServices.ComTypes;
+using Dazinator.Extensions.FileProviders;
+using Dazinator.Extensions.FileProviders.InMemory;
 using Microsoft.AspNetCore.Http;
-using NetPack.Pipeline;
 
 namespace NetPack.Typescript.Tests
 {
@@ -157,16 +156,17 @@ namespace NetPack.Typescript.Tests
                     {
                         foreach (var value in values)
                         {
-                            var subPath = SubPathInfo.Parse(value);
-
-                            var existingFile = InMemoryFileProvider.GetFileInfo(value);
-                            var existingFileContents = existingFile.ReadAllContent();
-                            var modifiedFileContents = existingFileContents + Environment.NewLine +
-                                                       "// modified on " + DateTime.UtcNow;
-
-                            var retrievedFolder = InMemoryFileProvider.Directory.GetFolder(subPath.Directory);
-                            var modifiedFile = new StringFileInfo(modifiedFileContents, subPath.Name);
-                            retrievedFolder.UpdateFile(modifiedFile);
+                            throw new NotImplementedException("SubPathInfo gone");
+                            // var subPath = SubPathInfo.Parse(value);
+                            //
+                            // var existingFile = InMemoryFileProvider.GetFileInfo(value);
+                            // var existingFileContents = existingFile.ReadAllContent();
+                            // var modifiedFileContents = existingFileContents + Environment.NewLine +
+                            //                            "// modified on " + DateTime.UtcNow;
+                            //
+                            // var retrievedFolder = InMemoryFileProvider.Directory.GetFolder(subPath.Directory);
+                            // var modifiedFile = new StringFileInfo(modifiedFileContents, subPath.Name);
+                            // retrievedFolder.UpdateFile(modifiedFile);
 
                         }
                     }
