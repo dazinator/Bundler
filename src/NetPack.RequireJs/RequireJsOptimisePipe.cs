@@ -1,4 +1,3 @@
-using Dazinator.AspNet.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
@@ -10,6 +9,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Dazinator.Extensions.FileProviders;
 
 namespace NetPack.RequireJs
 {
@@ -71,10 +71,12 @@ namespace NetPack.RequireJs
                 RequireJsOptimiseResult result = await _nodeServices.InvokeAsync<RequireJsOptimiseResult>(_script.Value.FileName, optimiseRequest);
                 foreach (NodeInMemoryFile file in result.Files)
                 {
-                    string filePath = file.Path.Replace('\\', '/');
-                    SubPathInfo subPathInfo = SubPathInfo.Parse(filePath);
-                    PathString dir = subPathInfo.Directory.ToPathString();
-                    context.AddOutput(dir, new StringFileInfo(file.Contents, subPathInfo.Name));
+                     string filePath = file.Path.Replace('\\', '/');
+                    // SubPathInfo subPathInfo = SubPathInfo.Parse(filePath);
+                    // PathString dir = subPathInfo.Directory.ToPathString();
+                    // context.AddOutput(dir, new StringFileInfo(file.Contents, subPathInfo.Name));
+
+                    throw new NotImplementedException();
                 }
 
                 //if (!string.IsNullOrWhiteSpace(result.Error))

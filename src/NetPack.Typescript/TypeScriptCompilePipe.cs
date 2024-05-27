@@ -1,5 +1,3 @@
-using Dazinator.AspNet.Extensions.FileProviders;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.NodeServices;
 using NetPack.Extensions;
 using NetPack.Pipeline;
@@ -10,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Dazinator.Extensions.FileProviders;
 
 namespace NetPack.Typescript
 {
@@ -127,10 +126,11 @@ namespace NetPack.Typescript
                 {
                     foreach (KeyValuePair<string, string> item in result.EchoFiles)
                     {
-                        SubPathInfo subPathInfo = SubPathInfo.Parse(item.Key);
-                        StringFileInfo outputFileInfo = new StringFileInfo(item.Value, subPathInfo.Name);
-
-                        context.AddOutput(subPathInfo.Directory.ToPathString(), outputFileInfo);
+                      
+                        throw new NotImplementedException("Need to fix this as SubPathInfo gone");
+                        // SubPathInfo subPathInfo = SubPathInfo.Parse(item.Key);
+                        // StringFileInfo outputFileInfo = new StringFileInfo(item.Value, subPathInfo.Name);
+                        // context.AddOutput(subPathInfo.Directory.ToPathString(), outputFileInfo);
                     }
                 }
 
@@ -138,10 +138,11 @@ namespace NetPack.Typescript
                 {
                     foreach (KeyValuePair<string, string> output in result.Sources)
                     {
-                        SubPathInfo subPathInfo = SubPathInfo.Parse(output.Key);
-                        var outputFileInfo = new StringFileInfo(output.Value, subPathInfo.Name);
-
-                        context.AddOutput(subPathInfo.Directory.ToPathString(), outputFileInfo);
+                        throw new NotImplementedException("Need to fix this as SubPathInfo gone");
+                        // SubPathInfo subPathInfo = SubPathInfo.Parse(output.Key);
+                        // var outputFileInfo = new StringFileInfo(output.Value, subPathInfo.Name);
+                        //
+                        // context.AddOutput(subPathInfo.Directory.ToPathString(), outputFileInfo);
 
                     }
                 }

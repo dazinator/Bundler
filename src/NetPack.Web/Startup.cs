@@ -11,7 +11,7 @@ namespace NetPack.Web
     public class Startup
     {
 
-        public Startup(Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -24,7 +24,7 @@ namespace NetPack.Web
 
         public IConfigurationRoot Configuration { get; }
 
-        public Microsoft.AspNetCore.Hosting.IHostingEnvironment Environment { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -35,7 +35,7 @@ namespace NetPack.Web
                 setup.AddPipeline(pipelineBuilder =>
                 {
 
-                    Pipeline.IPipelineBuilder builder = pipelineBuilder.WithHostingEnvironmentWebrootProvider()
+                    var builder = pipelineBuilder.WithHostingEnvironmentWebrootProvider()
                     // Simple processor, that compiles typescript files into js files.                  
                     .AddTypeScriptPipe(input =>
                     {
@@ -273,11 +273,8 @@ namespace NetPack.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -290,22 +287,33 @@ namespace NetPack.Web
 
             app.UseNetPack();
             app.UseStaticFiles();
+            
+            app.UseRouting();
+            app.UseAuthorization();
 
-            app.UseBrowserReload();
-            app.UseHotModuleReload();
+          //  app.UseBrowserReload();
+           //S app.UseHotModuleReload();
             // UseBrowserReload() calls UseSignalR() under the hood with default options.
             // If you want full control of singlar setup, use the following instead:
             //app.UseSignalR(routes =>
             //{
             //    routes.MapBrowserReloadHub();
             //});
-
-            app.UseMvc(routes =>
-             {
-                 routes.MapRoute(
-                     name: "default",
-                     template: "{controller=Home}/{action=SingleTypescriptFile}/{id?}");
-             });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapBrowserReloadHub();
+                endpoints.MapHotModuleReloadHub();
+                // Map default controller route
+                // endpoints.MapControllerRoute(
+                //     name: "default",
+                //     pattern: "{controller=Home}/{action=Index}/{id?}");
+                
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=SingleTypescriptFile}/{id?}");
+                
+            
+            });
 
             app.Use(async (context, next) =>
             {

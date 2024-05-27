@@ -1,12 +1,13 @@
-﻿using Dazinator.AspNet.Extensions.FileProviders;
-using DotNet.SourceMaps;
+﻿using DotNet.SourceMaps;
 using NetPack.Pipeline;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Dazinator.Extensions.FileProviders;
 
 namespace NetPack.JsMin
 {
@@ -67,14 +68,14 @@ namespace NetPack.JsMin
                     {
                         // seperate file.
 
-                        state.AddOutput(item.Directory, new StringFileInfo(jsonSourceMap, mapFileName));
+                        state.AddStringFile(item.Directory, jsonSourceMap, mapFileName);
                         sourceMappingURL = $"//# sourceMappingURL={mapFileName.ToString()}";
                     }
 
                     output.Append(sourceMappingURL);
                 }
 
-                state.AddOutput(item.Directory, new StringFileInfo(output.ToString(), outPutFileName));
+                state.AddStringFile(item.Directory, output.ToString(), outPutFileName);
 
             }
 

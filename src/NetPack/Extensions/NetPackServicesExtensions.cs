@@ -1,5 +1,3 @@
-
-using Dazinator.AspNet.Extensions.FileProviders.Directory;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.NodeServices;
@@ -8,6 +6,7 @@ using NetPack.Pipeline;
 using NetPack.Requirements;
 using NetPack.Utils;
 using System;
+using Dazinator.Extensions.FileProviders.InMemory.Directory;
 
 // ReSharper disable once CheckNamespace
 // Extension method put in root namespace for discoverability purposes.

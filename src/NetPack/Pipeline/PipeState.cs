@@ -3,19 +3,22 @@ using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Dazinator.Extensions.FileProviders;
 
 namespace NetPack.Pipeline
 {
     public class PipeState
     {
-
         public PipeState(FileWithDirectory[] inputs, IFileProvider fileProvider)
         {
             InputFiles = new Dictionary<PathString, Tuple<FileWithDirectory, DateTimeOffset>>();
             foreach (FileWithDirectory item in inputs)
             {
-                InputFiles.Add(item.UrlPath, new Tuple<FileWithDirectory, DateTimeOffset>(item, item.FileInfo.LastModified));
+                InputFiles.Add(item.UrlPath,
+                    new Tuple<FileWithDirectory, DateTimeOffset>(item, item.FileInfo.LastModified));
             }
+
             FileProvider = fileProvider;
             OutputFiles = new HashSet<Tuple<PathString, IFileInfo>>();
             SourceFiles = new HashSet<Tuple<PathString, IFileInfo>>();
@@ -65,7 +68,6 @@ namespace NetPack.Pipeline
             }
 
             return info.Item2 < currentLastModifiedDate;
-
         }
 
 
@@ -161,6 +163,11 @@ namespace NetPack.Pipeline
             // var item = new FileWithDirectory() { Directory = directory, FileInfo = fileInfo };
             Tuple<PathString, IFileInfo> pathAndFile = Tuple.Create<PathString, IFileInfo>(directory, file);
             OutputFiles.Add(pathAndFile);
+        }
+
+        public void AddStringFile(PathString path, string content, string fileName, Encoding encoding = null)
+        {
+            AddOutput(path, new StringFileInfo(content, fileName, encoding));
         }
 
         /// <summary>
