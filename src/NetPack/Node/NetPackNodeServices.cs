@@ -60,6 +60,13 @@ namespace NetPack
             return result;
         }
 
+        public Task<TResult> InvokeExportAsync<TRequest, TResult>(StringAsTempFile script, string exportedFunctionName, TRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var args = new object[] { request };
+            return InvokeExportAsync<TResult>(script, exportedFunctionName, args, cancellationToken);
+        }
+
         // public Task<T> InvokeExportAsync<T>(CancellationToken cancellationToken, string moduleName, string exportedFunctionName, params object[] args)
         // {
         //     return _nodeServices.InvokeExportAsync<T>(cancellationToken, moduleName, exportedFunctionName, args);

@@ -46,8 +46,11 @@ namespace NetPack.Rollup
 
             _script = new Lazy<StringAsTempFile>(() =>
             {
-                string scriptContent = _rollupScriptGenerator.Value.GenerateScript(_inputOptions);
-                return _nodeServices.CreateStringAsTempFile(scriptContent);
+                return new StringAsTempFile(name, () =>
+                {
+                    string scriptContent = _rollupScriptGenerator.Value.GenerateScript(_inputOptions);
+                    return scriptContent;
+                });
             });
         }
 
@@ -71,7 +74,7 @@ namespace NetPack.Rollup
             optimiseRequest.OutputOptions = _outputOptions;
 
             cancelationToken.ThrowIfCancellationRequested();
-            var response = await _nodeServices.InvokeExportAsync<RollupResponse>(_script.Value.FileName, "build", optimiseRequest);
+            var response = await _nodeServices.InvokeExportAsync<RollupRequest, RollupResponse>(_script.Value, "build", optimiseRequest);
             cancelationToken.ThrowIfCancellationRequested();
 
             foreach (var output in _outputOptions)

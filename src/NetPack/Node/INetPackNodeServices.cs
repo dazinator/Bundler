@@ -10,6 +10,10 @@ namespace NetPack
      //   StringAsTempFile CreateStringAsTempFile(string content);
      Task<T> InvokeExportAsync<T>(StringAsTempFile script, string exportedFunctionName, object[] args = null,
          CancellationToken cancellationToken = default);
+     
+     
+     Task<TResult> InvokeExportAsync<TRequest, TResult>(StringAsTempFile script, string exportedFunctionName, TRequest request,
+         CancellationToken cancellationToken = default);
 
     }
 }

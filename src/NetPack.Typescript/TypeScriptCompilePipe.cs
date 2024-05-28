@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NetPack.Typescript
 {
-    public class TypeScriptCompilePipe : BasePipe, IDisposable
+    public class TypeScriptCompilePipe : BasePipe
     {
         private INetPackNodeServices _nodeServices;
         private TypeScriptPipeOptions _options;
@@ -33,15 +33,17 @@ namespace NetPack.Typescript
             _options = options;
             _script = new Lazy<StringAsTempFile>(() =>
             {
-                Assembly assy = GetType().GetAssemblyFromType();
-                string scriptName = (_options.TestMode ?? false)
-                    ? "Embedded/netpack-testfiles.js"
-                    : "Embedded/netpack-typescript.js";
-                Microsoft.Extensions.FileProviders.IFileInfo script =
-                    _embeddedResourceProvider.GetResourceFile(assy, scriptName);
-                string scriptContent = script.ReadAllContent();
-
-                return _nodeServices.CreateStringAsTempFile(scriptContent);
+                return new StringAsTempFile(name, () =>
+                {
+                    Assembly assy = GetType().GetAssemblyFromType();
+                    string scriptName = (_options.TestMode ?? false)
+                        ? "Embedded/netpack-testfiles.js"
+                        : "Embedded/netpack-typescript.js";
+                    Microsoft.Extensions.FileProviders.IFileInfo script =
+                        _embeddedResourceProvider.GetResourceFile(assy, scriptName);
+                    string scriptContent = script.ReadAllContent();
+                    return scriptContent;
+                });
             });
         }
 
@@ -113,8 +115,8 @@ namespace NetPack.Typescript
                 StringAsTempFile nodeScript = _script.Value;
                 cancelationToken.ThrowIfCancellationRequested();
                 TypeScriptCompileResult result =
-                    await _nodeServices.InvokeExportAsync<TypeScriptCompileResult>(nodeScript.FileName, "build",
-                        requestDto);
+                    await _nodeServices.InvokeExportAsync<TypescriptCompileRequestDto, TypeScriptCompileResult>(nodeScript, "build",
+                        requestDto, cancelationToken);
                 cancelationToken.ThrowIfCancellationRequested();
                 if (result.Errors != null && result.Errors.Any())
                 {
@@ -165,14 +167,6 @@ namespace NetPack.Typescript
             catch (System.Exception e)
             {
                 throw;
-            }
-        }
-
-        public void Dispose()
-        {
-            if (_script.IsValueCreated)
-            {
-                _script.Value.Dispose();
             }
         }
     }
