@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!--    Direct reference to this package always reqquired.-->
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.0"/>
     <EmbeddedResource Include="Embedded\RollupCodeSplittingTemplate.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
