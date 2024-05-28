@@ -13,12 +13,11 @@
 
   <ItemGroup>
     <PackageReference Include="Dazinator.Extensions.FileProviders" Version="2.0.0" />
-    <PackageReference Include="DotNet.Glob" Version="3.2.0-alpha.36" />   
+    <PackageReference Include="DotNet.Glob" Version="3.2.0-alpha.36" />
     <PackageReference Include="Polly" Version="8.4.0" />
-<!--    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.5.1" />-->
     <PackageReference Include="Microsoft.Extensions.FileProviders.Composite" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.1.0" />
+    <PackageReference Include="Jering.Javascript.NodeJS" Version="7.0.0" />    
   </ItemGroup>  
 
   <PropertyGroup>

@@ -1,13 +1,10 @@
 ﻿using DotNet.SourceMaps;
 using NetPack.Pipeline;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Dazinator.Extensions.FileProviders;
 
 namespace NetPack.JsMin
 {
@@ -84,11 +81,11 @@ namespace NetPack.JsMin
 
         private string GetJson(SourceMap sourceMap)
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var options = new JsonSerializerOptions
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-            string json = JsonConvert.SerializeObject(sourceMap, settings);
+            string json = JsonSerializer.Serialize(sourceMap, options);
             return json;
         }
 

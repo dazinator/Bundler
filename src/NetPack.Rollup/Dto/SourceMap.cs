@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 
 namespace NetPack.Rollup
 {
@@ -9,7 +9,7 @@ namespace NetPack.Rollup
         public string[] Sources { get; set; }
         public string[] SourcesContent { get; set; }
         public string[] Names { get; set; }
-        public JValue Mappings { get; set; }       
+        public JsonValue Mappings { get; set; }       
 
     }
 }

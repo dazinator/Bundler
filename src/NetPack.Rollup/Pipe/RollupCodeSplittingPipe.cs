@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.NodeServices;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NetPack.Extensions;
 using NetPack.Node.Dto;
 using NetPack.Pipeline;
 using NetPack.Utils;
 using System;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Dazinator.Extensions.FileProviders;
 
 namespace NetPack.Rollup
 {
@@ -86,7 +85,7 @@ namespace NetPack.Rollup
 
                     if (item.SourceMap != null)
                     {
-                        var json = Newtonsoft.Json.JsonConvert.SerializeObject(item.SourceMap);
+                        var json =  JsonSerializer.Serialize(item.SourceMap);
                         context.AddStringFile(outDir, json, item.FileName + ".map");
                     }
 

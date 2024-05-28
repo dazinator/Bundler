@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 
 namespace NetPack.Rollup
 {
     public class RollupResult
     {
-        public JValue Code { get; set; }
+        public JsonValue Code { get; set; }
 
         public SourceMap SourceMap { get; set; }
 

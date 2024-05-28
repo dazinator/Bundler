@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.NodeServices;
 using NetPack.Extensions;
 using NetPack.Pipeline;
 using NetPack.Utils;
@@ -8,8 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Dazinator.Extensions.FileProviders;
-using Microsoft.AspNetCore.Http;
 
 namespace NetPack.Typescript
 {
