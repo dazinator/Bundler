@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Dazinator.Extensions.FileProviders;
+using NetPack.Utils;
 
 namespace NetPack.Zip
 {
@@ -64,15 +65,13 @@ namespace NetPack.Zip
                 var ms = new MemoryStream();
                 var readStream = entry.Open();
 
-                await readStream.CopyToAsync(ms);
+                await readStream.CopyToAsync(ms, cancelationToken);
 
                 var memoryStreamFile = new MemoryStreamFileInfo(ms,  entry.Name);
-
-                throw new NotImplementedException("SubpathInfo gone");
-                // var subPath = SubPathInfo.Parse(entry.FullName);
-                // var pathString = new PathString($"/{subPath.Directory}");
-                //
-                // state.AddOutput(pathString, memoryStreamFile);
+               
+                var subPath = SubPathInfo.Parse(entry.FullName);
+                var pathString = new PathString($"/{subPath.Directory}");
+                state.AddOutput(pathString, memoryStreamFile);
             }
         }
     }

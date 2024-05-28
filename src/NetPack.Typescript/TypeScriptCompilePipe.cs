@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Dazinator.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 namespace NetPack.Typescript
 {
@@ -21,9 +22,9 @@ namespace NetPack.Typescript
         private readonly PipeState _previousState;
 
         public TypeScriptCompilePipe(INetPackNodeServices nodeServices,
-            IEmbeddedResourceProvider embeddedResourceProvider) : this(nodeServices, embeddedResourceProvider, new TypeScriptPipeOptions())
+            IEmbeddedResourceProvider embeddedResourceProvider) : this(nodeServices, embeddedResourceProvider,
+            new TypeScriptPipeOptions())
         {
-
         }
 
         public TypeScriptCompilePipe(INetPackNodeServices nodeServices,
@@ -36,15 +37,16 @@ namespace NetPack.Typescript
             _script = new Lazy<StringAsTempFile>(() =>
             {
                 Assembly assy = GetType().GetAssemblyFromType();
-                string scriptName = (_options.TestMode ?? false) ? "Embedded/netpack-testfiles.js" : "Embedded/netpack-typescript.js";
-                Microsoft.Extensions.FileProviders.IFileInfo script = _embeddedResourceProvider.GetResourceFile(assy, scriptName);
+                string scriptName = (_options.TestMode ?? false)
+                    ? "Embedded/netpack-testfiles.js"
+                    : "Embedded/netpack-typescript.js";
+                Microsoft.Extensions.FileProviders.IFileInfo script =
+                    _embeddedResourceProvider.GetResourceFile(assy, scriptName);
                 string scriptContent = script.ReadAllContent();
 
                 return _nodeServices.CreateStringAsTempFile(scriptContent);
             });
         }
-
-
 
 
         public override async Task ProcessAsync(PipeState context, CancellationToken cancelationToken)
@@ -72,11 +74,12 @@ namespace NetPack.Typescript
 
             if (context.InputFiles != null)
             {
-
                 // get modified files.
                 inputFiles = context.GetInputFiles();
 
-                FileWithDirectory[] modifiedInputs = _previousState != null ? context.GetModifiedInputs(_previousState).ToArray() : inputFiles;
+                FileWithDirectory[] modifiedInputs = _previousState != null
+                    ? context.GetModifiedInputs(_previousState).ToArray()
+                    : inputFiles;
 
                 foreach (FileWithDirectory item in inputFiles)
                 {
@@ -94,7 +97,6 @@ namespace NetPack.Typescript
                     string contents = item.FileInfo.ReadAllContent();
                     requestDto.Files.Add(item.UrlPath, contents);
                 }
-
             }
 
 
@@ -113,12 +115,16 @@ namespace NetPack.Typescript
 
                 StringAsTempFile nodeScript = _script.Value;
                 cancelationToken.ThrowIfCancellationRequested();
-                TypeScriptCompileResult result = await _nodeServices.InvokeExportAsync<TypeScriptCompileResult>(nodeScript.FileName, "build", requestDto);
+                TypeScriptCompileResult result =
+                    await _nodeServices.InvokeExportAsync<TypeScriptCompileResult>(nodeScript.FileName, "build",
+                        requestDto);
                 cancelationToken.ThrowIfCancellationRequested();
                 if (result.Errors != null && result.Errors.Any())
                 {
                     // Throwing an exception will halt further processing of the pipeline.
-                    TypeScriptCompileException typescriptCompilationException = new TypeScriptCompileException("Could not compile typescript due to compilation errors.", result.Errors);
+                    TypeScriptCompileException typescriptCompilationException =
+                        new TypeScriptCompileException("Could not compile typescript due to compilation errors.",
+                            result.Errors);
                     throw typescriptCompilationException;
                 }
 
@@ -126,11 +132,7 @@ namespace NetPack.Typescript
                 {
                     foreach (KeyValuePair<string, string> item in result.EchoFiles)
                     {
-                      
-                        throw new NotImplementedException("Need to fix this as SubPathInfo gone");
-                        // SubPathInfo subPathInfo = SubPathInfo.Parse(item.Key);
-                        // StringFileInfo outputFileInfo = new StringFileInfo(item.Value, subPathInfo.Name);
-                        // context.AddOutput(subPathInfo.Directory.ToPathString(), outputFileInfo);
+                        context.AddStringFile(item.Key, item.Value);
                     }
                 }
 
@@ -138,12 +140,7 @@ namespace NetPack.Typescript
                 {
                     foreach (KeyValuePair<string, string> output in result.Sources)
                     {
-                        throw new NotImplementedException("Need to fix this as SubPathInfo gone");
-                        // SubPathInfo subPathInfo = SubPathInfo.Parse(output.Key);
-                        // var outputFileInfo = new StringFileInfo(output.Value, subPathInfo.Name);
-                        //
-                        // context.AddOutput(subPathInfo.Directory.ToPathString(), outputFileInfo);
-
+                        context.AddStringFile(output.Key, output.Value);
                     }
                 }
 
@@ -165,18 +162,13 @@ namespace NetPack.Typescript
                         // {
                         // source file is already being served.
                         //    }
-
                     }
-
                 }
-
             }
             catch (System.Exception e)
             {
-
                 throw;
             }
-
         }
 
         public void Dispose()
@@ -187,8 +179,4 @@ namespace NetPack.Typescript
             }
         }
     }
-
-
-
-
 }

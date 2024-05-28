@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Dazinator.Extensions.FileProviders;
+using NetPack.Utils;
 
 namespace NetPack.Pipeline
 {
@@ -165,9 +166,15 @@ namespace NetPack.Pipeline
             OutputFiles.Add(pathAndFile);
         }
 
-        public void AddStringFile(PathString path, string content, string fileName, Encoding encoding = null)
+        public void AddStringFile(PathString directoryPath, string content, Encoding encoding = null)
         {
-            AddOutput(path, new StringFileInfo(content, fileName, encoding));
+            var subPathInfo = SubPathInfo.Parse(directoryPath);
+            AddStringFile(subPathInfo.Directory, content, subPathInfo.Name, encoding);
+        }
+        
+        public void AddStringFile(string directoryPath, string content, string fileName, Encoding encoding = null)
+        {
+            AddOutput(directoryPath, new StringFileInfo(content, fileName, encoding));
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using Dazinator.Extensions.FileProviders.InMemory.Directory;
 using NetPack.Pipeline;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using NetPack.Utils;
 
 namespace NetPack.Tests.Pipes
 {
@@ -19,23 +20,20 @@ namespace NetPack.Tests.Pipes
 
         public FileWithDirectory GivenAFileInfo(string path, int length)
         {
-            throw new NotImplementedException("SubPathInfo gone");
-            // var subPath = SubPathInfo.Parse(path);
-            // var content = TestUtils.GenerateString(length) + Environment.NewLine + "//# sourceMappingURL=/" + subPath.ToString();
-            //
-            // var fileInfo = new StringFileInfo(content, subPath.Name);
-            // Directory.AddFile(subPath.Directory, fileInfo);
-            // return new FileWithDirectory() { Directory = subPath.Directory, FileInfo = fileInfo };
+            var subPath = SubPathInfo.Parse(path);
+            var content = TestUtils.GenerateString(length) + Environment.NewLine + "//# sourceMappingURL=/" + subPath.ToString();
+            var fileInfo = new StringFileInfo(content, subPath.Name);
+            Directory.AddFile(subPath.Directory, fileInfo);
+            return new FileWithDirectory() { Directory = subPath.Directory, FileInfo = fileInfo };
         }
 
         public FileWithDirectory GivenAFileInfo(string fileName, Func<string> content)
         {
-            throw new NotImplementedException("SubPathInfo gone");
-            // var subPath = SubPathInfo.Parse(fileName);
-            // var fileContent = content();
-            // var fileInfo = new StringFileInfo(fileContent, subPath.Name);
-            // Directory.AddFile(subPath.Directory, fileInfo);
-            // return new FileWithDirectory() { Directory = "/" + subPath.Directory, FileInfo = fileInfo };
+            var subPath = SubPathInfo.Parse(fileName);
+            var fileContent = content();
+            var fileInfo = new StringFileInfo(fileContent, subPath.Name);
+            Directory.AddFile(subPath.Directory, fileInfo);
+            return new FileWithDirectory() { Directory = "/" + subPath.Directory, FileInfo = fileInfo };
         }
 
         protected async Task WhenFilesProcessedByPipe(Func<IPipe> pipeFactory, params FileWithDirectory[] files)

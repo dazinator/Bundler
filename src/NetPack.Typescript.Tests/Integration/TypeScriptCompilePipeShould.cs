@@ -10,6 +10,7 @@ using System;
 using Dazinator.Extensions.FileProviders;
 using Dazinator.Extensions.FileProviders.InMemory;
 using Microsoft.AspNetCore.Http;
+using NetPack.Utils;
 
 namespace NetPack.Typescript.Tests
 {
@@ -156,17 +157,16 @@ namespace NetPack.Typescript.Tests
                     {
                         foreach (var value in values)
                         {
-                            throw new NotImplementedException("SubPathInfo gone");
-                            // var subPath = SubPathInfo.Parse(value);
-                            //
-                            // var existingFile = InMemoryFileProvider.GetFileInfo(value);
-                            // var existingFileContents = existingFile.ReadAllContent();
-                            // var modifiedFileContents = existingFileContents + Environment.NewLine +
-                            //                            "// modified on " + DateTime.UtcNow;
-                            //
-                            // var retrievedFolder = InMemoryFileProvider.Directory.GetFolder(subPath.Directory);
-                            // var modifiedFile = new StringFileInfo(modifiedFileContents, subPath.Name);
-                            // retrievedFolder.UpdateFile(modifiedFile);
+                            var subPath = SubPathInfo.Parse(value);
+                            
+                            var existingFile = InMemoryFileProvider.GetFileInfo(value);
+                            var existingFileContents = existingFile.ReadAllContent();
+                            var modifiedFileContents = existingFileContents + Environment.NewLine +
+                                                       "// modified on " + DateTime.UtcNow;
+                            
+                            var retrievedFolder = InMemoryFileProvider.Directory.GetFolder(subPath.Directory);
+                            var modifiedFile = new StringFileInfo(modifiedFileContents, subPath.Name);
+                            retrievedFolder.UpdateFile(modifiedFile);
 
                         }
                     }

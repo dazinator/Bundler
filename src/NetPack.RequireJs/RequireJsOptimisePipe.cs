@@ -71,12 +71,10 @@ namespace NetPack.RequireJs
                 RequireJsOptimiseResult result = await _nodeServices.InvokeAsync<RequireJsOptimiseResult>(_script.Value.FileName, optimiseRequest);
                 foreach (NodeInMemoryFile file in result.Files)
                 {
-                     string filePath = file.Path.Replace('\\', '/');
-                    // SubPathInfo subPathInfo = SubPathInfo.Parse(filePath);
-                    // PathString dir = subPathInfo.Directory.ToPathString();
-                    // context.AddOutput(dir, new StringFileInfo(file.Contents, subPathInfo.Name));
-
-                    throw new NotImplementedException();
+                    string filePath = file.Path.Replace('\\', '/');
+                    SubPathInfo subPathInfo = SubPathInfo.Parse(filePath);
+                    PathString dir = subPathInfo.Directory.ToPathString();
+                    context.AddOutput(dir, new StringFileInfo(file.Contents, subPathInfo.Name));
                 }
 
                 //if (!string.IsNullOrWhiteSpace(result.Error))
