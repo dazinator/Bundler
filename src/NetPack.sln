@@ -54,6 +54,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{7FAF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetPack.JsMin", "NetPack.JsMin\NetPack.JsMin.csproj", "{C6388B1D-22B0-4F9A-A9FB-E12F7ED0B7C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetPack.JsMin.Tests", "NetPack.JsMin.Tests\NetPack.JsMin.Tests.csproj", "{87C194A5-8AA3-453B-BFE7-58E034307AAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,10 @@ Global
 		{C6388B1D-22B0-4F9A-A9FB-E12F7ED0B7C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6388B1D-22B0-4F9A-A9FB-E12F7ED0B7C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6388B1D-22B0-4F9A-A9FB-E12F7ED0B7C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87C194A5-8AA3-453B-BFE7-58E034307AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C194A5-8AA3-453B-BFE7-58E034307AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C194A5-8AA3-453B-BFE7-58E034307AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C194A5-8AA3-453B-BFE7-58E034307AAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +161,7 @@ Global
 		{0394420A-5657-4FC9-AA6F-74178B5E7993} = {D3B0CC01-206D-4612-94FC-3AE3A300153E}
 		{06E139B7-898F-41E7-BB99-E3AE965C46FA} = {D3B0CC01-206D-4612-94FC-3AE3A300153E}
 		{C6388B1D-22B0-4F9A-A9FB-E12F7ED0B7C9} = {D3B0CC01-206D-4612-94FC-3AE3A300153E}
+		{87C194A5-8AA3-453B-BFE7-58E034307AAE} = {D3B0CC01-206D-4612-94FC-3AE3A300153E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6F97B401-084D-46B4-A4FD-53F4E50B4048}
