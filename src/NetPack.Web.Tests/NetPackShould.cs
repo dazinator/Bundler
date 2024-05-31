@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
+using NetPack.Tests.Utils;
 using Xunit;
 using NetPack.Typescript;
 using NetPack.Utils;
@@ -23,6 +24,7 @@ namespace NetPack.Web.Tests
 
         public NetPackShould()
         {
+            NodeFnmHelper.SetPath();
             // Arrange
             _server = new TestServer(new WebHostBuilder()
                 .UseStartup<Startup>()

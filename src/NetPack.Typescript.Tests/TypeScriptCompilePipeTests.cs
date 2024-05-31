@@ -8,11 +8,16 @@ using Xunit;
 using NetPack.Tests.Pipes;
 using System.Threading;
 using Dazinator.Extensions.FileProviders;
+using NetPack.Tests.Utils;
 
 namespace NetPack.Typescript.Tests
 {
     public class TypeScriptCompilePipeTests : PipeTestBase
     {
+        public TypeScriptCompilePipeTests()
+        {
+            NodeFnmHelper.SetPath();
+        }
 
         [Fact]
         public async Task Compiles_TypescriptFiles_Into_Js_Files_With_SourceMaps()

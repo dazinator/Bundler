@@ -10,6 +10,7 @@ using System;
 using Dazinator.Extensions.FileProviders;
 using Dazinator.Extensions.FileProviders.InMemory;
 using Microsoft.AspNetCore.Http;
+using NetPack.Tests.Utils;
 using NetPack.Utils;
 
 namespace NetPack.Typescript.Tests
@@ -22,6 +23,8 @@ namespace NetPack.Typescript.Tests
 
         public TypeScriptCompilePipeShould()
         {
+            NodeFnmHelper.SetPath();
+            
             // Arrange
             _server = new TestServer(new WebHostBuilder()
                 .UseStartup<Startup>());
@@ -67,7 +70,6 @@ namespace NetPack.Typescript.Tests
         [Fact]
         public async void Send_Files_Incrementally_For_Build()
         {
-
             // Act
             // ge tthe current combined output file.
             var responseString = await GetResponseString("/netpack/combined.js");

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NetPack.Tests\NetPack.Tests.csproj" />
     <ProjectReference Include="..\NetPack\NetPack.csproj" />
     <ProjectReference Include="..\NetPack.Typescript\NetPack.Typescript.csproj" />
   </ItemGroup>

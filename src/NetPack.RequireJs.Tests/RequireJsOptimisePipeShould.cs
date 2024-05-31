@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Microsoft.AspNetCore.Http;
+using NetPack.Tests.Utils;
 
 namespace NetPack.RequireJs.Tests
 {
@@ -21,6 +22,7 @@ namespace NetPack.RequireJs.Tests
 
         public RequireJsOptimisePipeShould()
         {
+            NodeFnmHelper.SetPath();
             // Arrange
             _server = new TestServer(new WebHostBuilder()
                 .UseStartup<RequireJsOptimisePipeTestsStartup>());
