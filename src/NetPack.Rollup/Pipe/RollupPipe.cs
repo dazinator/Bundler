@@ -84,8 +84,10 @@ namespace NetPack.Rollup
             foreach (RollupOutputFileOptions output in _outputOptions)
             {
                 var outputResults = response.Results[output.File];
+
+                var filePathInfo = PathStringHelper.SplitPath(output.File);
                 
-                PathStringUtils.GetPathAndFilename(output.File, out PathString rootPath, out string outputFileName);
+              // PathStringHelper.GetPathAndFilename(output.File, out PathString rootPath, out string outputFileName);
                 
                 foreach (var outputItem in outputResults)
                 {
@@ -99,11 +101,11 @@ namespace NetPack.Rollup
                             }
                         }
                     }
-                    state.AddStringFile(rootPath, outputItem.Code.ToString(), outputFileName);
+                    state.AddStringFile(filePathInfo.Directory, outputItem.Code.ToString(), filePathInfo.FileName);
                     if (outputItem.SourceMap != null)
                     {
                         string json =  JsonSerializer.Serialize(outputItem.SourceMap);
-                        state.AddStringFile(rootPath, json, outputFileName + ".map");
+                        state.AddStringFile(filePathInfo.Directory, json, filePathInfo.FileName + ".map");
                     }
                 }
 

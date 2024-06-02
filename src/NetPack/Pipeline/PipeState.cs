@@ -166,12 +166,20 @@ namespace NetPack.Pipeline
             OutputFiles.Add(pathAndFile);
         }
 
+        public void AddStringFile(string directoryPath, string content, Encoding encoding = null)
+        {
+            var path = directoryPath.ToPathString();
+            //  SubPathInfo.Parse(directoryPath);
+            AddStringFile(path, content, encoding);
+        }
+
+
         public void AddStringFile(PathString directoryPath, string content, Encoding encoding = null)
         {
-            var subPathInfo = SubPathInfo.Parse(directoryPath);
-            AddStringFile(subPathInfo.Directory, content, subPathInfo.Name, encoding);
+            var subPathInfo = PathStringHelper.SplitPath(directoryPath);
+            AddStringFile(subPathInfo.Directory, content, subPathInfo.FileName, encoding);
         }
-        
+
         public void AddStringFile(string directoryPath, string content, string fileName, Encoding encoding = null)
         {
             AddOutput(directoryPath, new StringFileInfo(content, fileName, encoding));
