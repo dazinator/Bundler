@@ -24,16 +24,16 @@ namespace NetPack
 
     public class RollupPluginOptionsBuilder : IRollupPluginOptionsBuilder, IRollupPluginStepConfigurationBuilder
     {
-        private JsonObject _options = null;
-        private JsonArray _optionsArray = null;
+        private JsonNode _options = null;
+       // private JsonArray _optionsArray = null;
         // private RollupPipeOptionsBuilder _builder;
         private NpmDependency _npmDependency = null;
         private bool _importOnly = false;
         private string _defaultExportName = null;
 
         public NpmDependency NpmDependency { get => _npmDependency; set => _npmDependency = value; }
-        public JsonObject Options { get => _options; set => _options = value; }
-        public JsonArray OptionsArray { get => _optionsArray; set => _optionsArray = value; }
+        public JsonNode Options { get => _options; set => _options = value; }
+      //  public JsonArray OptionsArray { get => _optionsArray; set => _optionsArray = value; }
 
         public string DefaultExportName { get => _defaultExportName; set => _defaultExportName = value; }
         public bool IsImportOnly { get => _importOnly; set => _importOnly = value; }
@@ -42,7 +42,6 @@ namespace NetPack
         {
             IsImportOnly = false;
             Options = null;
-            OptionsArray = null;
         }
 
         public IRollupPluginStepConfigurationBuilder HasNpmDependency(Action<NpmDependencyBuilder> configureNpmModuleRequirement)
@@ -91,7 +90,7 @@ namespace NetPack
             {
                 JsonArray options = new JsonArray();
                 configureOptions?.Invoke(options);
-                OptionsArray = options;
+                Options = options;
             }
             return this;
         }
@@ -111,7 +110,7 @@ namespace NetPack
                 {
                     JsonArray options = new JsonArray();
                     configureOptions?.Invoke(options);
-                    OptionsArray = options;
+                    Options = options;
                 }
                 else
                 {
@@ -122,9 +121,9 @@ namespace NetPack
             return this;
         }
 
-        public object GetJsonConfigurationObject()
+        public JsonNode GetJsonConfigurationObject()
         {
-            return (object)Options ?? OptionsArray;
+            return Options;
         }
 
         /// <summary>
