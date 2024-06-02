@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Nodes;
 
 namespace NetPack.Rollup
 {
@@ -11,7 +11,7 @@ namespace NetPack.Rollup
             External = new List<string>();
         }
 
-        public void AddPlugin(string name, object configuration, string defaultExportName = null, bool importOnly = false, bool addBeforeVirtualFileSystem = false)
+        public void AddPlugin(string name, JsonNode configuration, string defaultExportName = null, bool importOnly = false, bool addBeforeVirtualFileSystem = false)
         {
             Plugins.Add(new RollupPlugin(name, configuration, defaultExportName, importOnly, addBeforeVirtualFileSystem));
         }
